@@ -1,7 +1,5 @@
 #ifndef USERPROFILE_H
 #define USERPROFILE_H
 
-void updateUserProfile(int userID);
-void changeUserPassword(int userID);
-
+void changeUserProfile( int userID);
 #endif // USERPROFILE_H
