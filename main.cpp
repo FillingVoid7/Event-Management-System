@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip> 
 #include <bits/stdc++.h>
 #include "Login.h"
 #include "CreateUserAccount.h"
@@ -14,23 +15,29 @@
 
 using namespace std;
 
+void centerOutput(const string& text) {
+    int width = 100; 
+    int padding = (width - text.length()) / 2;
+    cout << setw(padding + text.length()) << text << endl;
+}
+
 void showUserMenu() {
-    cout << "\n======================" << endl;
-    cout << " User Menu" << endl;
-    cout << "======================" << endl;
+    centerOutput("======================");
+    centerOutput(" User Menu");
+    centerOutput("======================");
     cout << "1. Events" << endl;
     cout << "2. Profile" << endl;
     cout << "3. Notifications" << endl;
     cout << "4. Comments & Feedback" << endl;
     cout << "5. Logout" << endl;
-    cout << "======================" << endl;
+    centerOutput("======================");
     cout << "Enter your choice: ";
 }
 
 void showEventsSubMenu() {
-    cout << "\n======================" << endl;
-    cout << " Events Menu" << endl;
-    cout << "======================" << endl;
+    centerOutput("======================");
+    centerOutput(" Events Menu");
+    centerOutput("======================");
     cout << "1. Browse Events" << endl;
     cout << "2. Join Event" << endl;
     cout << "3. Cancel Registration" << endl;
@@ -40,96 +47,98 @@ void showEventsSubMenu() {
     cout << "7. Set Event Reminder" << endl;
     cout << "8. View Event Reminders" << endl;
     cout << "9. Back" << endl;
-    cout << "======================" << endl;
+    centerOutput("======================");
     cout << "Enter your choice: ";
 }
 
 void showProfileSubMenu() {
-    cout << "\n======================" << endl;
-    cout << " Profile Menu" << endl;
-    cout << "======================" << endl;
+    centerOutput("======================");
+    centerOutput(" Profile Menu");
+    centerOutput("======================");
     cout << "1. Update Profile" << endl;
     cout << "2. Back" << endl;
-    cout << "======================" << endl;
+    centerOutput("======================");
     cout << "Enter your choice: ";
 }
 
 void showNotificationsSubMenu() {
-    cout << "\n======================" << endl;
-    cout << " Notifications Menu" << endl;
-    cout << "======================" << endl;
+    centerOutput("======================");
+    centerOutput(" Notifications Menu");
+    centerOutput("======================");
     cout << "1. View Upcoming Events" << endl;
     cout << "2. View Event Changes" << endl;
     cout << "3. Back" << endl;
-    cout << "======================" << endl;
+    centerOutput("======================");
     cout << "Enter your choice: ";
 }
 
 void showCommentsFeedbackSubMenu() {
-    cout << "\n======================" << endl;
-    cout << " Comments & Feedback Menu" << endl;
-    cout << "======================" << endl;
+    centerOutput("======================");
+    centerOutput(" Comments & Feedback Menu");
+    centerOutput("======================");
     cout << "1. Leave Comment on Event" << endl;
     cout << "2. View Comments on Event" << endl;
     cout << "3. Leave Event Feedback" << endl;
     cout << "4. View Event Feedback" << endl;
     cout << "5. Back" << endl;
-    cout << "======================" << endl;
+    centerOutput("======================");
     cout << "Enter your choice: ";
 }
 
 void showAdminMenu() {
-    cout << "\n======================" << endl;
-    cout << " Admin Menu" << endl;
-    cout << "======================" << endl;
+    centerOutput("======================");
+    centerOutput(" Admin Menu");
+    centerOutput("======================");
     cout << "1. Event Management" << endl;
     cout << "2. Reports" << endl;
     cout << "3. Logout" << endl;
-    cout << "======================" << endl;
+    centerOutput("======================");
     cout << "Enter your choice: ";
 }
 
 void showEventManagementSubMenu() {
-    cout << "\n======================" << endl;
-    cout << " Event Management Menu" << endl;
-    cout << "======================" << endl;
+    centerOutput("======================");
+    centerOutput(" Event Management Menu");
+    centerOutput("======================");
     cout << "1. Create Event" << endl;
     cout << "2. Edit Event" << endl;
     cout << "3. Delete Event" << endl;
     cout << "4. View Event Registrations" << endl;
     cout << "5. Back" << endl;
-    cout << "======================" << endl;
+    centerOutput("======================");
     cout << "Enter your choice: ";
 }
 
 void showReportsSubMenu() {
-    cout << "\n======================" << endl;
-    cout << " Reports Menu" << endl;
-    cout << "======================" << endl;
+    centerOutput("======================");
+    centerOutput(" Reports Menu");
+    centerOutput("======================");
     cout << "1. Generate Event Report" << endl;
     cout << "2. Generate User Activity Report" << endl;
     cout << "3. Back" << endl;
-    cout << "======================" << endl;
+    centerOutput("======================");
     cout << "Enter your choice: ";
 }
 
 int main() {
     while (true) {
         int choice;
-        cout << "\n======================" << endl;
-        cout << " Main Menu" << endl;
-        cout << "======================" << endl;
+        centerOutput("======================");
+        centerOutput(" Main Menu");
+        centerOutput("======================");
         cout << "1. Login" << endl;
         cout << "2. Create Account" << endl;
         cout << "3. Exit" << endl;
-        cout << "======================" << endl;
+        centerOutput("======================");
         cout << "Choose an option: ";
         cin >> choice;
 
         switch (choice) {
             case 1: {
                 int loginChoice;
-                cout << "1. Login as User\n2. Login as Admin\nChoose an option: ";
+                centerOutput("1. Login as User");
+                centerOutput("2. Login as Admin");
+                cout << "Choose an option: ";
                 cin >> loginChoice;
 
                 if (loginChoice == 1) {
@@ -249,6 +258,7 @@ int main() {
                                                     cout << "Enter Event ID to view comments: ";
                                                     cin >> eventID;
                                                     viewComments(eventID);  
+                                                    break;
                                                 }
                                                 case 3: {
                                                     int eventID;
@@ -369,7 +379,9 @@ int main() {
             }
             case 2: {
                 int accountChoice;
-                cout << "1. Create User Account\n2. Create Admin Account\nChoose an option: ";
+                centerOutput("1. Create User Account");
+                centerOutput("2. Create Admin Account");
+                cout << "Choose an option: ";
                 cin >> accountChoice;
 
                 switch (accountChoice) {

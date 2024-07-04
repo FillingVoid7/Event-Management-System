@@ -31,8 +31,8 @@ void changeUserProfile(int userID) {
     sqlite3_bind_int(stmt, 1, userID);
     rc = sqlite3_step(stmt);
     if (rc == SQLITE_ROW) {
-        string dbUsername = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
-        string dbPassword = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+        const char* dbUsername = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
+        const char* dbPassword = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
 
         if (currentUsername == dbUsername && currentPassword == dbPassword) {
             sqlite3_finalize(stmt);
