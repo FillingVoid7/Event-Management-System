@@ -4,8 +4,7 @@
 #include <sqlite3.h>
 #include <string>
 
-
-using namespace std ; 
+using namespace std;
 
 void generateEventReport(int eventID) {
     sqlite3* db = openDatabase();
@@ -17,12 +16,12 @@ void generateEventReport(int eventID) {
     if (sqlite3_step(stmt) == SQLITE_ROW) {
         cout << "Event Report for Event ID " << eventID << ":\n";
         cout << "Event Name: " << sqlite3_column_text(stmt, 1) << "\n";
-        cout << "Event Schedule: " << sqlite3_column_text(stmt, 2) << "\n";
+        cout << "Event Duration: " << sqlite3_column_text(stmt, 2) << "\n"; // Changed from eventSchedule
         cout << "Event Date: " << sqlite3_column_text(stmt, 3) << "\n";
         cout << "Event Description: " << sqlite3_column_text(stmt, 4) << "\n";
         cout << "Event Category: " << sqlite3_column_text(stmt, 5) << "\n";
         cout << "Event Location: " << sqlite3_column_text(stmt, 6) << "\n"; // Assuming eventLocation is at column index 6
-        cout << "Created By: " << sqlite3_column_int(stmt, 7) << "\n"; // Assuming creatorUserID is at column index 7
+        cout << "Created By: " << sqlite3_column_int(stmt, 7) << "\n"; // Assuming createdBy is at column index 7
     }
 
     sqlite3_finalize(stmt);
