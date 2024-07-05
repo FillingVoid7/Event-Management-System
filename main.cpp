@@ -52,9 +52,11 @@ int main() {
     return 0;
 }
 
-void showUserMenu() {
+void showUserMenu(int userId) {
+    sleep(1);
+    cout << "\033[2J\033[H";
     cout << "\n======================" << endl;
-    cout << " User Menu" << endl;
+    cout << " User Menu" << " (UserId: " << userId << ")"<< endl;
     cout << "======================" << endl;
     cout << "1. Events" << endl;
     cout << "2. Profile" << endl;
@@ -67,12 +69,13 @@ void showUserMenu() {
 
 void handleUserMenu(int userID) {
     while (true) {
-        showUserMenu();
+        showUserMenu(userID);
         int userChoice = getValidatedChoice(1, 5);
 
         if (userChoice == 5) break;
 
         switch (userChoice) {
+            
             case 1:
                 handleEventsSubMenu(userID);
                 break;
@@ -109,6 +112,8 @@ void showEventsSubMenu() {
 }
 
 void handleEventsSubMenu(int userID) {
+    sleep(1);
+            cout << "\033[2J\033[H";
     while (true) {
         showEventsSubMenu();
         int eventChoice = getValidatedChoice(1, 9);
@@ -151,6 +156,8 @@ void handleEventsSubMenu(int userID) {
 }
 
 void showProfileSubMenu() {
+    sleep(1);
+            cout << "\033[2J\033[H";
     cout << "\n======================" << endl;
     cout << " Profile Menu" << endl;
     cout << "======================" << endl;
@@ -162,6 +169,8 @@ void showProfileSubMenu() {
 }
 
 void handleProfileSubMenu(int userID) {
+    sleep(1);
+            cout << "\033[2J\033[H";
     while (true) {
         showProfileSubMenu();
         int profileChoice = getValidatedChoice(1, 3);
@@ -420,26 +429,41 @@ void handleMainMenu() {
                 sleep(1);
                 cout << "\033[2J\033[H";
                 int loginChoice;
+                cout << "===========================" << endl;
                 cout << "1. Login as User" << endl;
                 cout << "2. Login as Admin" << endl;
+                cout << "3. Back" << endl;
+                cout << "===========================" << endl;
+                cout << endl;
                 cout << "Choose an option: ";
-                loginChoice = getValidatedChoice(1, 2);
+                loginChoice = getValidatedChoice(1, 3);
 
                 if (loginChoice == 1) {
                     int userID = loginUser();
                     if (userID != -1) {
+                        sleep(1);
+                        cout << "\033[2J\033[H";
+                        cout << "UserId: " << userID << endl;
                         handleUserMenu(userID);
                     } else {
-                        cout << "User Login failed.\n";
+                         // ANSI escape code for red color
+                        cout << "\033[31mUser Login failed.\033[0m\n";
+                        sleep(2);
+                        cout << "\033[2J\033[H";
                     }
                 } else if (loginChoice == 2) {
                     if (loginAdmin() != -1) {
                         handleAdminMenu();
                     } else {
-                        cout << "Admin Login failed.\n";
+                         // ANSI escape code for red color
+                        cout << "\033[31mAdmin Login failed.\033[0m\n";
                         sleep(2);
                         cout << "\033[2J\033[H";
                     }
+                }else if(loginChoice == 3){
+                     sleep(1);
+                        cout << "\033[2J\033[H";
+                    break;
                 }
                 break;
             }
@@ -466,6 +490,8 @@ void handleMainMenu() {
             }
             case 3:
                 cout << "Exiting the program.\n";
+                sleep(1);
+                cout << "\033[2J\033[H";
                 return;
             default:
                 cout << "Invalid choice.\n";
