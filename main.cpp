@@ -13,7 +13,7 @@
 #include "AdminReports.h"
 #include "EventReminder.h"
 #include "EventFeedback.h"
-
+#include "includes/Database.h"
 using namespace std;
 
 

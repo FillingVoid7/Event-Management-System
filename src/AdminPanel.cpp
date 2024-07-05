@@ -77,6 +77,7 @@ void deleteEvent() {
     sqlite3_close(db);
 }
 
+
 void viewEventRegistrations() {
     int eventID;
     cout << "Enter Event ID to view registrations: ";
