@@ -13,7 +13,7 @@
 #include "AdminReports.h"
 #include "EventReminder.h"
 #include "EventFeedback.h"
-#include "includes/Database.h"
+#include "Database.h"
 using namespace std;
 
 
@@ -304,6 +304,8 @@ void handleAdminMenu() {
 }
 
 void showEventManagementSubMenu() {
+    sleep(1);
+    cout << "\033[2J\033[H";
     cout << "\n======================" << endl;
     cout << " Event Management Menu" << endl;
     cout << "======================" << endl;
@@ -354,6 +356,7 @@ void showReportsSubMenu() {
 }
 
 void handleReportsSubMenu() {
+    
     while (true) {
         showReportsSubMenu();
         int reportsChoice = getValidatedChoice(1, 3);
@@ -430,15 +433,19 @@ void handleMainMenu() {
                         cout << "User Login failed.\n";
                     }
                 } else if (loginChoice == 2) {
-                    if (loginAdmin()) {
+                    if (loginAdmin() != -1) {
                         handleAdminMenu();
                     } else {
                         cout << "Admin Login failed.\n";
+                        sleep(2);
+                        cout << "\033[2J\033[H";
                     }
                 }
                 break;
             }
             case 2: {
+                sleep(1);
+                cout << "\033[2J\033[H";
                 int accountChoice;
                 cout << "1. Create User Account" << endl;
                 cout << "2. Create Admin Account" << endl;
