@@ -48,7 +48,7 @@ int loginAdmin() {
     string adminName, adminPassword;
     cout << "Enter Admin Username: ";
     cin >> adminName;
-    cout << "Enter Password: ";
+    cout << "Enter Admin Password: ";
     cin >> adminPassword;
 
     sqlite3* db = openDatabase();
@@ -72,6 +72,7 @@ int loginAdmin() {
         cout << "Login successful. User ID: " << userID << endl;
     } else {
         cout << "Invalid username or password.\n";
+        return -1;
     }
     sqlite3_finalize(stmt);
     sqlite3_close(db);
