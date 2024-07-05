@@ -3,5 +3,4 @@
 
 void updateUserProfile(int userID);
 void changeUserPassword(int userID);
-
 #endif // USERPROFILE_H
