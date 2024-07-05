@@ -2,16 +2,28 @@
 CXX = g++
 
 # Compiler flags
-CXXFLAGS = -std=c++11 -Wall -I.
+CXXFLAGS = -std=c++17 -Wall -Iincludes
 
-# List of all .cpp files
-SRCS = main.cpp Login.cpp CreateUserAccount.cpp AdminPanel.cpp JoinEvents.cpp UserProfile.cpp EventSearch.cpp Comment.cpp Notification.cpp AdminReports.cpp EventReminder.cpp EventFeedback.cpp Database.cpp
+# List of all .cpp files in the src directory
+SRCS = main.cpp \
+       src/Login.cpp \
+       src/CreateUserAccount.cpp \
+       src/AdminPanel.cpp \
+       src/JoinEvents.cpp \
+       src/UserProfile.cpp \
+       src/EventSearch.cpp \
+       src/Comment.cpp \
+       src/Notification.cpp \
+       src/AdminReports.cpp \
+       src/EventReminder.cpp \
+       src/EventFeedback.cpp \
+       src/Database.cpp
 
-# List of all .o files
-OBJS = $(SRCS:.cpp=.o)
+# List of all .o files in the build directory
+OBJS = $(SRCS:%.cpp=build/%.o)
 
 # Name of the executable
-TARGET = event_management_system
+TARGET = bin/event_management_system
 
 # Default rule
 all: $(TARGET)
@@ -20,13 +32,14 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS) -lsqlite3
 
-# Rule to compile .cpp files to .o files
-%.o: %.cpp
+# Rule to compile .cpp files to .o files in the build directory
+build/%.o: %.cpp
+	@mkdir -p $(@D)  # Create directories if they do not exist
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Clean up build files
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -f build/*.o $(TARGET)
 
 # Phony targets
 .PHONY: all clean
