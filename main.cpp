@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Database.h"
 #include <limits>
 #include <unistd.h> // for sleep
 #include "Login.h"
@@ -14,6 +15,7 @@
 #include "EventFeedback.h"
 
 using namespace std;
+
 
 void showUserMenu();
 void handleUserMenu(int userID);
@@ -45,6 +47,7 @@ void showMainMenu();
 void handleMainMenu();
 
 int main() {
+    initializeDatabase();
     handleMainMenu();
     return 0;
 }
