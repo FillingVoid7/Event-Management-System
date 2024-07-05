@@ -40,6 +40,7 @@ int main() {
   
     handleMainMenu();
     return 0;
+    
 }
 
 void showUserMenu() {
