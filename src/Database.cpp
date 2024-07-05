@@ -32,6 +32,18 @@ void initializeDatabase() {
         );
     )";
 
+    const char* eventTableSQL = R"(
+        CREATE TABLE IF NOT EXISTS events (
+            eventID INTEGER PRIMARY KEY AUTOINCREMENT,
+            eventName TEXT NOT NULL,
+            eventDescription TEXT,
+            eventDate TEXT NOT NULL,
+            eventLocation TEXT NOT NULL UNIQUE,
+            eventOwner INTEGER,
+            FOREIGN KEY(eventOwner) REFERENCES user_data(userID)
+        );
+    )";
+
     char* errMsg = nullptr;
     int rc = sqlite3_exec(db, userTableSQL, nullptr, nullptr, &errMsg);
     if (rc != SQLITE_OK) {
@@ -40,6 +52,12 @@ void initializeDatabase() {
     }
 
     rc = sqlite3_exec(db, adminTableSQL, nullptr, nullptr, &errMsg);
+    if (rc != SQLITE_OK) {
+        cerr << "SQL error: " << errMsg << endl;
+        sqlite3_free(errMsg);
+    }
+
+    rc = sqlite3_exec(db, eventTableSQL, nullptr, nullptr, &errMsg);
     if (rc != SQLITE_OK) {
         cerr << "SQL error: " << errMsg << endl;
         sqlite3_free(errMsg);
