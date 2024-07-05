@@ -77,8 +77,4 @@ int loginAdmin() {
     sqlite3_close(db);
 
     return userID;
-<<<<<<< HEAD:src/Login.cpp
 }
-=======
-}
->>>>>>> 75add76 (modified main.cpp):Login.cpp

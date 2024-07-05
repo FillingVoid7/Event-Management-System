@@ -15,7 +15,6 @@ void searchEventByName() {
 
     sqlite3* db = openDatabase();
 
-
     string query = "SELECT * FROM events WHERE eventName LIKE '%" + eventName + "%'";
     
     sqlite3_stmt* stmt;
@@ -28,6 +27,7 @@ void searchEventByName() {
         cout << "Event Date: " << sqlite3_column_text(stmt, 3) << "\n";
         cout << "Event Description: " << sqlite3_column_text(stmt, 4) << "\n";
         cout << "Event Category: " << sqlite3_column_text(stmt, 5) << "\n";
+        cout << "Event Location: " << sqlite3_column_text(stmt, 6) << "\n"; // Include eventLocation
         cout << "--------------------------\n";
     }
 
@@ -43,7 +43,6 @@ void searchEventByDate() {
 
     sqlite3* db = openDatabase();
 
-
     string query = "SELECT * FROM events WHERE eventDate = '" + eventDate + "'";
     
     sqlite3_stmt* stmt;
@@ -56,6 +55,7 @@ void searchEventByDate() {
         cout << "Event Date: " << sqlite3_column_text(stmt, 3) << "\n";
         cout << "Event Description: " << sqlite3_column_text(stmt, 4) << "\n";
         cout << "Event Category: " << sqlite3_column_text(stmt, 5) << "\n";
+        cout << "Event Location: " << sqlite3_column_text(stmt, 6) << "\n"; // Include eventLocation
         cout << "--------------------------\n";
     }
 

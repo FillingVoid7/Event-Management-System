@@ -12,7 +12,7 @@ void updateUserProfile(int userID) {
     cin >> newUsername;
 
     sqlite3* db = openDatabase();
-    if (!db) return; // Ensure the database opened successfully
+    if (!db) return; 
 
   
     string query = "UPDATE user_data SET userName = ? WHERE userID = ?";
@@ -45,7 +45,7 @@ void changeUserPassword(int userID) {
     cin >> newPassword;
 
     sqlite3* db = openDatabase();
-    if (!db) return; // Ensure the database opened successfully
+    if (!db) return; 
 
     string query = "UPDATE user_data SET userPassword = ? WHERE userID = ?";
     sqlite3_stmt* stmt;

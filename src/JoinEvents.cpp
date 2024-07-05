@@ -21,6 +21,7 @@ void browseEvents() {
         cout << "Event Date: " << sqlite3_column_text(stmt, 3) << "\n";
         cout << "Event Description: " << sqlite3_column_text(stmt, 4) << "\n";
         cout << "Event Category: " << sqlite3_column_text(stmt, 5) << "\n";
+        cout << "Event Location: " << sqlite3_column_text(stmt, 6) << "\n"; // Added eventLocation
         cout << "--------------------------\n";
     }
 
@@ -36,7 +37,6 @@ void browseEventsByCategory() {
 
     sqlite3* db = openDatabase();
 
-
     string query = "SELECT * FROM events WHERE eventCategory = '" + category + "'";
     
     sqlite3_stmt* stmt;
@@ -49,12 +49,14 @@ void browseEventsByCategory() {
         cout << "Event Date: " << sqlite3_column_text(stmt, 3) << "\n";
         cout << "Event Description: " << sqlite3_column_text(stmt, 4) << "\n";
         cout << "Event Category: " << sqlite3_column_text(stmt, 5) << "\n";
+        cout << "Event Location: " << sqlite3_column_text(stmt, 6) << "\n"; // Added eventLocation
         cout << "--------------------------\n";
     }
 
     sqlite3_finalize(stmt);
     sqlite3_close(db);
 }
+
 
 void joinEvent(int userID) {
     int eventID;
@@ -111,9 +113,8 @@ void cancelEventRegistration(int userID) {
 void listJoinedEvents(int userID) {
     sqlite3* db = openDatabase();
 
-
-    string query = "SELECT e.eventID, e.eventName, e.eventSchedule, e.eventDate, e.eventDescription, e.eventCategory "
-                        "FROM events e INNER JOIN event_registrations er ON e.eventID = er.eventID WHERE er.userID = " + to_string(userID);
+    string query = "SELECT e.eventID, e.eventName, e.eventSchedule, e.eventDate, e.eventDescription, e.eventCategory, e.eventLocation "
+                   "FROM events e INNER JOIN event_registrations er ON e.eventID = er.eventID WHERE er.userID = " + to_string(userID);
     
     sqlite3_stmt* stmt;
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, nullptr);
@@ -125,9 +126,11 @@ void listJoinedEvents(int userID) {
         cout << "Event Date: " << sqlite3_column_text(stmt, 3) << "\n";
         cout << "Event Description: " << sqlite3_column_text(stmt, 4) << "\n";
         cout << "Event Category: " << sqlite3_column_text(stmt, 5) << "\n";
+        cout << "Event Location: " << sqlite3_column_text(stmt, 6) << "\n"; // Display eventLocation
         cout << "--------------------------\n";
     }
 
     sqlite3_finalize(stmt);
     sqlite3_close(db);
 }
+
