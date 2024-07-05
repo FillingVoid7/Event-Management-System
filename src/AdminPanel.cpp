@@ -6,18 +6,20 @@
 
 using namespace std;
 
-
 void createEvent() {
     sqlite3* db = openDatabase();
-    string eventName, eventSchedule, eventDescription, eventCategory;
-    string eventDate;
+    if (!db) return;
+
+    string eventName, eventDuration, eventLocation, eventDate, eventDescription, eventCategory;
     int createdBy;
 
     cout << "Enter Event Name: ";
     cin.ignore();
     getline(cin, eventName);
-    cout << "Enter Event Schedule: ";
-    getline(cin, eventSchedule);
+    cout << "Enter Event Duration: ";
+    getline(cin, eventDuration);
+    cout << "Enter Event Location: ";
+    getline(cin, eventLocation);
     cout << "Enter Event Date (YYYY-MM-DD): ";
     getline(cin, eventDate);
     cout << "Enter Event Description: ";
@@ -27,39 +29,57 @@ void createEvent() {
     cout << "Enter Creator Admin ID: ";
     cin >> createdBy;
 
-    string query = "INSERT INTO events (eventName, eventSchedule, eventDate, eventDescription, eventCategory, createdBy) VALUES ('" +
-                        eventName + "', '" + eventSchedule + "', '" + eventDate + "', '" + eventDescription + "', '" + eventCategory + "', " + to_string(createdBy) + ")";
-    sqlite3_exec(db, query.c_str(), nullptr, nullptr, nullptr);
+    string query = "INSERT INTO events (eventName, eventDuration, eventLocation, eventDate, eventDescription, eventCategory, createdBy) VALUES ('" +
+                   eventName + "', '" + eventDuration + "', '" + eventLocation + "', '" + eventDate + "', '" + eventDescription + "', '" + eventCategory + "', " + to_string(createdBy) + ")";
 
-    cout << "Event created successfully.\n";
+    char* errMsg = nullptr;
+    int rc = sqlite3_exec(db, query.c_str(), nullptr, nullptr, &errMsg);
+    if (rc != SQLITE_OK) {
+        cerr << "SQL error: " << errMsg << endl;
+        sqlite3_free(errMsg);
+    } else {
+        cout << "Event created successfully.\n";
+    }
+
     sqlite3_close(db);
 }
 
 void editEvent() {
-    int eventID;
-    string eventName, eventSchedule, eventDescription, eventCategory;
-    string eventDate;
+    sqlite3* db = openDatabase();
+    if (!db) return;
+
+    int eventID, createdBy;
+    string eventName, eventDuration, eventLocation, eventDate, eventDescription, eventCategory;
 
     cout << "Enter Event ID to edit: ";
     cin >> eventID;
     cout << "Enter new Event Name: ";
     cin.ignore();
     getline(cin, eventName);
-    cout << "Enter new Event Schedule: ";
-    getline(cin, eventSchedule);
+    cout << "Enter new Event Duration: ";
+    getline(cin, eventDuration);
+    cout << "Enter new Event Location: ";
+    getline(cin, eventLocation);
     cout << "Enter new Event Date (YYYY-MM-DD): ";
     getline(cin, eventDate);
     cout << "Enter new Event Description: ";
     getline(cin, eventDescription);
     cout << "Enter new Event Category: ";
     getline(cin, eventCategory);
+    cout << "Enter new Creator Admin ID: ";
+    cin >> createdBy;
 
-    sqlite3* db = openDatabase();
+    string query = "UPDATE events SET eventName = '" + eventName + "', eventDuration = '" + eventDuration + "', eventLocation = '" + eventLocation + "', eventDate = '" + eventDate + "', eventDescription = '" + eventDescription + "', eventCategory = '" + eventCategory + "', createdBy = " + to_string(createdBy) + " WHERE eventID = " + to_string(eventID);
 
-    string query = "UPDATE events SET eventName = '" + eventName + "', eventSchedule = '" + eventSchedule + "', eventDate = '" + eventDate + "', eventDescription = '" + eventDescription + "', eventCategory = '" + eventCategory + "' WHERE eventID = " + to_string(eventID);
-    sqlite3_exec(db, query.c_str(), nullptr, nullptr, nullptr);
+    char* errMsg = nullptr;
+    int rc = sqlite3_exec(db, query.c_str(), nullptr, nullptr, &errMsg);
+    if (rc != SQLITE_OK) {
+        cerr << "SQL error: " << errMsg << endl;
+        sqlite3_free(errMsg);
+    } else {
+        cout << "Event updated successfully.\n";
+    }
 
-    cout << "Event updated successfully.\n";
     sqlite3_close(db);
 }
 

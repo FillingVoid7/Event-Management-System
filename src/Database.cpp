@@ -1,6 +1,8 @@
 #include "Database.h"
 #include <sqlite3.h>
 #include <iostream>
+#include <string>
+
 using namespace std;
 
 sqlite3* openDatabase() {
@@ -38,7 +40,7 @@ void initializeDatabase() {
             eventID INTEGER PRIMARY KEY AUTOINCREMENT,
             eventName TEXT NOT NULL,
             eventLocation TEXT UNIQUE NOT NULL,
-            eventSchedule TEXT NOT NULL,
+            eventDuration TEXT NOT NULL,  -- Changed from eventSchedule
             eventDate TEXT NOT NULL,
             eventDescription TEXT NOT NULL,
             eventCategory TEXT NOT NULL,

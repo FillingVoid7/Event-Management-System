@@ -17,7 +17,7 @@ void browseEvents() {
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         cout << "Event ID: " << sqlite3_column_int(stmt, 0) << "\n";
         cout << "Event Name: " << sqlite3_column_text(stmt, 1) << "\n";
-        cout << "Event Schedule: " << sqlite3_column_text(stmt, 2) << "\n";
+        cout << "Event Duration: " << sqlite3_column_text(stmt, 2) << "\n"; // Changed to eventDuration
         cout << "Event Date: " << sqlite3_column_text(stmt, 3) << "\n";
         cout << "Event Description: " << sqlite3_column_text(stmt, 4) << "\n";
         cout << "Event Category: " << sqlite3_column_text(stmt, 5) << "\n";
@@ -45,7 +45,7 @@ void browseEventsByCategory() {
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         cout << "Event ID: " << sqlite3_column_int(stmt, 0) << "\n";
         cout << "Event Name: " << sqlite3_column_text(stmt, 1) << "\n";
-        cout << "Event Schedule: " << sqlite3_column_text(stmt, 2) << "\n";
+        cout << "Event Duration: " << sqlite3_column_text(stmt, 2) << "\n"; // Changed to eventDuration
         cout << "Event Date: " << sqlite3_column_text(stmt, 3) << "\n";
         cout << "Event Description: " << sqlite3_column_text(stmt, 4) << "\n";
         cout << "Event Category: " << sqlite3_column_text(stmt, 5) << "\n";
@@ -56,6 +56,7 @@ void browseEventsByCategory() {
     sqlite3_finalize(stmt);
     sqlite3_close(db);
 }
+
 
 
 void joinEvent(int userID) {
@@ -113,7 +114,7 @@ void cancelEventRegistration(int userID) {
 void listJoinedEvents(int userID) {
     sqlite3* db = openDatabase();
 
-    string query = "SELECT e.eventID, e.eventName, e.eventSchedule, e.eventDate, e.eventDescription, e.eventCategory, e.eventLocation "
+    string query = "SELECT e.eventID, e.eventName, e.eventDuration, e.eventDate, e.eventDescription, e.eventCategory, e.eventLocation "
                    "FROM events e INNER JOIN event_registrations er ON e.eventID = er.eventID WHERE er.userID = " + to_string(userID);
     
     sqlite3_stmt* stmt;
@@ -122,7 +123,7 @@ void listJoinedEvents(int userID) {
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         cout << "Event ID: " << sqlite3_column_int(stmt, 0) << "\n";
         cout << "Event Name: " << sqlite3_column_text(stmt, 1) << "\n";
-        cout << "Event Schedule: " << sqlite3_column_text(stmt, 2) << "\n";
+        cout << "Event Duration: " << sqlite3_column_text(stmt, 2) << "\n";
         cout << "Event Date: " << sqlite3_column_text(stmt, 3) << "\n";
         cout << "Event Description: " << sqlite3_column_text(stmt, 4) << "\n";
         cout << "Event Category: " << sqlite3_column_text(stmt, 5) << "\n";
@@ -133,4 +134,5 @@ void listJoinedEvents(int userID) {
     sqlite3_finalize(stmt);
     sqlite3_close(db);
 }
+
 

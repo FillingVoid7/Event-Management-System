@@ -4,8 +4,7 @@
 #include <sqlite3.h>
 #include <string>
 
-using namespace std ; 
-
+using namespace std;
 
 void searchEventByName() {
     string eventName;
@@ -23,7 +22,7 @@ void searchEventByName() {
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         cout << "Event ID: " << sqlite3_column_int(stmt, 0) << "\n";
         cout << "Event Name: " << sqlite3_column_text(stmt, 1) << "\n";
-        cout << "Event Schedule: " << sqlite3_column_text(stmt, 2) << "\n";
+        cout << "Event Duration: " << sqlite3_column_text(stmt, 2) << "\n"; // Changed to eventDuration
         cout << "Event Date: " << sqlite3_column_text(stmt, 3) << "\n";
         cout << "Event Description: " << sqlite3_column_text(stmt, 4) << "\n";
         cout << "Event Category: " << sqlite3_column_text(stmt, 5) << "\n";
@@ -34,6 +33,7 @@ void searchEventByName() {
     sqlite3_finalize(stmt);
     sqlite3_close(db);
 }
+
 
 void searchEventByDate() {
     string eventDate;
@@ -51,7 +51,7 @@ void searchEventByDate() {
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         cout << "Event ID: " << sqlite3_column_int(stmt, 0) << "\n";
         cout << "Event Name: " << sqlite3_column_text(stmt, 1) << "\n";
-        cout << "Event Schedule: " << sqlite3_column_text(stmt, 2) << "\n";
+        cout << "Event Duration: " << sqlite3_column_text(stmt, 2) << "\n"; // Changed to eventDuration
         cout << "Event Date: " << sqlite3_column_text(stmt, 3) << "\n";
         cout << "Event Description: " << sqlite3_column_text(stmt, 4) << "\n";
         cout << "Event Category: " << sqlite3_column_text(stmt, 5) << "\n";
