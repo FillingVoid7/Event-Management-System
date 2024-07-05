@@ -12,7 +12,8 @@
 #include "AdminReports.h"
 #include "EventReminder.h"
 #include "EventFeedback.h"
-
+#include <sqlite3.h>
+#include <Database.h>
 
 using namespace std;
 
@@ -36,11 +37,13 @@ int getValidatedChoice(int min, int max);
 void showMainMenu();
 void handleMainMenu();
 
+
+
 int main() {
-  
+    initializeDatabase();
     handleMainMenu();
     return 0;
-    
+
 }
 
 void showUserMenu() {
