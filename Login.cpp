@@ -5,42 +5,46 @@
 
 using namespace std;
 
-bool loginUser() {
-    string userName, userPassword;
+int loginUser() {
+    string username, password;
     cout << "Enter Username: ";
-    cin >> userName;
+    cin >> username;
     cout << "Enter Password: ";
-    cin >> userPassword;
+    cin >> password;
 
     sqlite3* db = openDatabase();
+    if (!db) return -1;
 
-    string sql = "SELECT userID FROM user_data WHERE userName = ? AND userPassword = ?";
+    const char* errMsg = nullptr;
+    string query = "SELECT userID FROM user_data WHERE userName = ? AND userPassword = ?";
     sqlite3_stmt* stmt;
-    int rc = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr);
+    int rc = sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, nullptr);
+
     if (rc != SQLITE_OK) {
-        cerr << "SQL error: " << sqlite3_errmsg(db) << endl;
+        cerr << "Error preparing statement: " << sqlite3_errmsg(db) << endl;
         sqlite3_close(db);
-        return false;
+        return -1;
     }
 
-    sqlite3_bind_text(stmt, 1, userName.c_str(), -1, SQLITE_STATIC);
-    sqlite3_bind_text(stmt, 2, userPassword.c_str(), -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 1, username.c_str(), -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 2, password.c_str(), -1, SQLITE_STATIC);
 
     rc = sqlite3_step(stmt);
+    int userID = -1;
     if (rc == SQLITE_ROW) {
-        cout << "Login successful. User ID: " << sqlite3_column_text(stmt, 0) << endl;
-        sqlite3_finalize(stmt);
-        sqlite3_close(db);
-        return true;
+        userID = sqlite3_column_int(stmt, 0);
+        cout << "Login successful. User ID: " << userID << endl;
     } else {
-        cout << "Login failed." << endl;
-        sqlite3_finalize(stmt);
-        sqlite3_close(db);
-        return false;
+        cout << "Invalid username or password.\n";
     }
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+
+    return userID;
 }
 
-bool loginAdmin() {
+int loginAdmin() {
     string adminName, adminPassword;
     cout << "Enter Admin Username: ";
     cin >> adminName;
@@ -62,15 +66,15 @@ bool loginAdmin() {
     sqlite3_bind_text(stmt, 2, adminPassword.c_str(), -1, SQLITE_STATIC);
 
     rc = sqlite3_step(stmt);
+    int userID = -1;
     if (rc == SQLITE_ROW) {
-        cout << "Login successful. Admin ID: " << sqlite3_column_text(stmt, 0) << endl;
-        sqlite3_finalize(stmt);
-        sqlite3_close(db);
-        return true;
+        userID = sqlite3_column_int(stmt, 0);
+        cout << "Login successful. User ID: " << userID << endl;
     } else {
-        cout << "Login failed." << endl;
-        sqlite3_finalize(stmt);
-        sqlite3_close(db);
-        return false;
+        cout << "Invalid username or password.\n";
     }
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+
+    return userID;
 }
