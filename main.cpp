@@ -12,7 +12,7 @@
 #include "AdminReports.h"
 #include "EventReminder.h"
 #include "EventFeedback.h"
-
+#include "includes/Database.h"
 using namespace std;
 
 void showUserMenu();
@@ -45,6 +45,7 @@ void showMainMenu();
 void handleMainMenu();
 
 int main() {
+    initializeDatabase();
     handleMainMenu();
     return 0;
 }
