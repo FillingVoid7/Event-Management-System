@@ -4,6 +4,8 @@
 
 #include <sqlite3.h>
 
+void initializeDatabase();
+
 sqlite3* openDatabase();
 
 #endif // DATABASE_H
