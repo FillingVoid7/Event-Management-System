@@ -33,7 +33,10 @@ int loginUser() {
     int userID = -1;
     if (rc == SQLITE_ROW) {
         userID = sqlite3_column_int(stmt, 0);
-        cout << "Login successful. User ID: " << userID << endl;
+         // ANSI escape code for green color
+      
+        cout << "\033[32mLogin successful\n \033[0m\n";
+       
     } else {
         cout << "Invalid username or password.\n";
     }
@@ -48,7 +51,7 @@ int loginAdmin() {
     string adminName, adminPassword;
     cout << "Enter Admin Username: ";
     cin >> adminName;
-    cout << "Enter Password: ";
+    cout << "Enter Admin Password: ";
     cin >> adminPassword;
 
     sqlite3* db = openDatabase();
@@ -69,9 +72,13 @@ int loginAdmin() {
     int userID = -1;
     if (rc == SQLITE_ROW) {
         userID = sqlite3_column_int(stmt, 0);
-        cout << "Login successful. User ID: " << userID << endl;
+         // ANSI escape code for green color
+        cout << "\033[32mLogin successful. \033[0m\n";
+        //cout << "Login successful. User ID: " << userID << endl;
     } else {
-        cout << "Invalid username or password.\n";
+          // ANSI escape code for red color
+         cout << "\033[31mInvalid username or password\033[0m\n";
+        return -1;
     }
     sqlite3_finalize(stmt);
     sqlite3_close(db);
