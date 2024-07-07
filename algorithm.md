@@ -1,88 +1,126 @@
-# College Event Management System Algorithm
+# Algorithm
 
-## 1. Start
+## 1. Main Menu
+1.1. Display options: 
+   - Create Account
+   - Exit
+   - Login
+   - Admin Login
 
-## 2. Main Menu
-- Display options: 
-    1. User Login
-    2. Admin Login
-    3. Exit
+## 2. Create Account
+2.1. Display options:
+   - Create User Account
+   - Create Admin Account
+2.2. If Create User Account selected:
+   - Proceed with user account creation.
+2.3. If Create Admin Account selected:
+   - Proceed with admin account creation.
+2.4. Return to Main Menu.
 
-## 3. If User selects "User Login":
-- Authenticate user
-- If authentication is successful:
-    - Display User Menu
-    - Else, prompt error and return to Main Menu
+## 3. Exit
+3.1. Terminate the application.
 
-## 4. User Menu
-- Display options:
-    1. View Events
-    2. View Event Details by Date
-    3. View Events by Name
-    4. View Upcoming Events
-    5. Search Events by Date
-    6. Search Events by Name
-    7. Give Event Feedback
-    8. Leave Comment on Event
-    9. View Feedback on Event
-    10. Logout
+## 4. Login
+4.1. Display user login form.
+4.2. Authenticate user credentials.
+4.3. If authentication is successful:
+   - Display User Menu.
+4.4. Else:
+   - Display error message and return to Main Menu.
 
-- Based on user selection:
-    - If 1: Display all events
-    - If 2: Prompt for date and display event details
-    - If 3: Prompt for event name and display event details
-    - If 4: Display upcoming events
-    - If 5: Prompt for date and search events
-    - If 6: Prompt for event name and search events
-    - If 7: Prompt for event name and allow feedback
-    - If 8: Prompt for event name and allow comments
-    - If 9: Prompt for event name and display feedback
-    - If 10: Logout and return to Main Menu
+## 5. Admin Login
+5.1. Display admin login form.
+5.2. Authenticate admin credentials.
+5.3. If authentication is successful:
+   - Display Admin Menu.
+5.4. Else:
+   - Display error message and return to Main Menu.
 
-## 5. If User selects "Admin Login":
-- Authenticate admin
-- If authentication is successful:
-    - Display Admin Menu
-    - Else, prompt error and return to Main Menu
+## 6. User Menu
+6.1. Display options:
+   - Profile
+   - Logout
+   - Events
+6.2. If Profile selected:
+   - Display Profile Menu.
+6.3. If Logout selected:
+   - Logout user and return to Main Menu.
+6.4. If Events selected:
+   - Display Events Menu.
 
-## 6. Admin Menu
-- Display options:
-    1. Manage Events
-    2. View Reports
-    3. Logout
+## 7. Profile Menu
+7.1. Display options:
+   - Change Password
+   - Update Profile
+7.2. If Change Password selected:
+   - Display change password form.
+   - Process password change.
+7.3. If Update Profile selected:
+   - Display update profile form.
+   - Process profile update.
+7.4. Return to User Menu.
 
-- Based on admin selection:
-    - If 1: Display Event Management Options
-    - If 2: Display Report Options
-    - If 3: Logout and return to Main Menu
+## 8. Events Menu
+8.1. Display options:
+   - Browse Events
+   - Join Event
+   - Cancel Registration
+   - View Joined Events
+   - Back
+8.2. If Browse Events selected:
+   - Display available events.
+8.3. If Join Event selected:
+   - Display join event form.
+   - Process event joining.
+8.4. If Cancel Registration selected:
+   - Display cancel registration form.
+   - Process registration cancellation.
+8.5. If View Joined Events selected:
+   - Display joined events.
+8.6. If Back selected:
+   - Return to User Menu.
 
-## 7. Event Management Options
-- Display options:
-    1. Add Event
-    2. Delete Event
-    3. Update Event
-    4. View Event Participation
-    5. Create Event
-    6. Update Event
+## 9. Admin Menu
+9.1. Display options:
+   - Reports
+   - Event Management
+   - Logout
+9.2. If Reports selected:
+   - Display Reports Menu.
+9.3. If Event Management selected:
+   - Display Event Management Menu.
+9.4. If Logout selected:
+   - Logout admin and return to Main Menu.
 
-- Based on admin selection:
-    - If 1: Prompt for event details and add event
-    - If 2: Prompt for event ID/name and delete event
-    - If 3: Prompt for event ID/name and update details
-    - If 4: Display event participation details
-    - If 5: Prompt for event details and create event
-    - If 6: Prompt for event ID/name and update event
+## 10. Reports Menu
+10.1. Display options:
+   - Generate User Activity Report
+   - Generate Event Report
+   - Back
+10.2. If Generate User Activity Report selected:
+   - Generate and display user activity report.
+10.3. If Generate Event Report selected:
+   - Generate and display event report.
+10.4. If Back selected:
+   - Return to Admin Menu.
 
-## 8. View Reports Options
-- Display options:
-    1. Generate Event Report
-    2. Generate User Participation Report
-
-- Based on admin selection:
-    - If 1: Generate and display event report
-    - If 2: Generate and display user participation report
-
-## 9. If User selects "Exit":
-- Exit the system
-
-## 10. End
+## 11. Event Management Menu
+11.1. Display options:
+   - Edit Event
+   - View Event Registrations
+   - Delete Event
+   - Create Event
+   - Back
+11.2. If Edit Event selected:
+   - Display edit event form.
+   - Process event edit.
+11.3. If View Event Registrations selected:
+   - Display event registrations.
+11.4. If Delete Event selected:
+   - Display delete event form.
+   - Process event deletion.
+11.5. If Create Event selected:
+   - Display create event form.
+   - Process event creation.
+11.6. If Back selected:
+   - Return to Admin Menu.
