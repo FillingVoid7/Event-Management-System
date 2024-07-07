@@ -11,12 +11,7 @@ SRCS = main.cpp \
        src/AdminPanel.cpp \
        src/JoinEvents.cpp \
        src/UserProfile.cpp \
-       src/EventSearch.cpp \
-       src/Comment.cpp \
-       src/Notification.cpp \
        src/AdminReports.cpp \
-       src/EventReminder.cpp \
-       src/EventFeedback.cpp \
        src/Database.cpp
 
 # List of all .o files in the build directory

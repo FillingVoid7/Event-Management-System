@@ -19,29 +19,29 @@ void initializeDatabase() {
     sqlite3* db = openDatabase();
     if (!db) return;
 
-    const char* dropTablesSQL = R"(
-        DROP TABLE IF EXISTS admin_data;
-        DROP TABLE IF EXISTS user_data;
-        DROP TABLE IF EXISTS events;
-        DROP TABLE IF EXISTS event_registrations;
-        DROP TABLE IF EXISTS comments;
-        DROP TABLE IF EXISTS feedback;
-        DROP TABLE IF EXISTS reminders;
-        DROP TABLE IF EXISTS admin_reports;
-    )";
+    // const char* dropTablesSQL = R"(
+    //     DROP TABLE IF EXISTS admin_data;
+    //     DROP TABLE IF EXISTS user_data;
+    //     DROP TABLE IF EXISTS events;
+    //     DROP TABLE IF EXISTS event_registrations;
+    //     DROP TABLE IF EXISTS comments;
+    //     DROP TABLE IF EXISTS feedback;
+    //     DROP TABLE IF EXISTS reminders;
+    //     DROP TABLE IF EXISTS admin_reports;
+    // )";
 
     const char* adminTableSQL = R"(
         CREATE TABLE IF NOT EXISTS admin_data (
             adminID INTEGER PRIMARY KEY AUTOINCREMENT,
-            adminName TEXT NOT NULL,
+            adminName TEXT UNIQUE  NOT NULL,
             adminPassword TEXT NOT NULL
         );
     )";
 
     const char* userTableSQL = R"(
         CREATE TABLE IF NOT EXISTS user_data (
-            userID INTEGER PRIMARY KEY AUTOINCREMENT,
-            userName TEXT NOT NULL,
+            userID INTEGER  PRIMARY KEY AUTOINCREMENT,
+            userName TEXT UNIQUE NOT NULL,
             userPassword TEXT NOT NULL
         );
     )";
@@ -117,14 +117,14 @@ void initializeDatabase() {
 
     char* errMsg = nullptr;
 
-    int rc = sqlite3_exec(db, dropTablesSQL, nullptr, nullptr, &errMsg);
-    if (rc != SQLITE_OK) {
-        cerr << "SQL error dropping tables: " << errMsg << endl;
-        sqlite3_free(errMsg);
-    }
+    // int rc = sqlite3_exec(db, dropTablesSQL, nullptr, nullptr, &errMsg);
+    // if (rc != SQLITE_OK) {
+    //     cerr << "SQL error dropping tables: " << errMsg << endl;
+    //     sqlite3_free(errMsg);
+    // }
 
     
-    rc = sqlite3_exec(db, adminTableSQL, nullptr, nullptr, &errMsg);
+    int rc = sqlite3_exec(db, adminTableSQL, nullptr, nullptr, &errMsg);
     if (rc != SQLITE_OK) {
         cerr << "SQL error creating admin_data table: " << errMsg << endl;
         sqlite3_free(errMsg);

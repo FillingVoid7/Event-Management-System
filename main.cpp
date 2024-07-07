@@ -7,12 +7,7 @@
 #include "AdminPanel.h"
 #include "JoinEvents.h"
 #include "UserProfile.h"
-#include "EventSearch.h"
-#include "Comment.h"
-#include "Notification.h"
 #include "AdminReports.h"
-#include "EventReminder.h"
-#include "EventFeedback.h"
 #include "Database.h"
 using namespace std;
 
@@ -25,12 +20,6 @@ void handleEventsSubMenu(int userID);
 
 void showProfileSubMenu();
 void handleProfileSubMenu(int userID);
-
-void showNotificationsSubMenu();
-void handleNotificationsSubMenu(int userID);
-
-void showCommentsFeedbackSubMenu();
-void handleCommentsFeedbackSubMenu(int userID);
 
 void showAdminMenu();
 void handleAdminMenu();
@@ -60,9 +49,7 @@ void showUserMenu(int userId) {
     cout << "======================" << endl;
     cout << "1. Events" << endl;
     cout << "2. Profile" << endl;
-    cout << "3. Notifications" << endl;
-    cout << "4. Comments & Feedback" << endl;
-    cout << "5. Logout" << endl;
+    cout << "3. Logout" << endl;
     cout << "======================" << endl;
     cout << "Enter your choice: ";
 }
@@ -70,9 +57,9 @@ void showUserMenu(int userId) {
 void handleUserMenu(int userID) {
     while (true) {
         showUserMenu(userID);
-        int userChoice = getValidatedChoice(1, 5);
+        int userChoice = getValidatedChoice(1, 3);
 
-        if (userChoice == 5) break;
+        if (userChoice == 3) break;
 
         switch (userChoice) {
             
@@ -81,12 +68,6 @@ void handleUserMenu(int userID) {
                 break;
             case 2:
                 handleProfileSubMenu(userID);
-                break;
-            case 3:
-                handleNotificationsSubMenu(userID);
-                break;
-            case 4:
-                handleCommentsFeedbackSubMenu(userID);
                 break;
             default:
                 cout << "Invalid choice.\n";
@@ -102,11 +83,7 @@ void showEventsSubMenu() {
     cout << "2. Join Event" << endl;
     cout << "3. Cancel Registration" << endl;
     cout << "4. View Joined Events" << endl;
-    cout << "5. Search Events by Name" << endl;
-    cout << "6. Search Events by Date" << endl;
-    cout << "7. Set Event Reminder" << endl;
-    cout << "8. View Event Reminders" << endl;
-    cout << "9. Back" << endl;
+    cout << "5. Back" << endl;
     cout << "======================" << endl;
     cout << "Enter your choice: ";
 }
@@ -116,9 +93,9 @@ void handleEventsSubMenu(int userID) {
             cout << "\033[2J\033[H";
     while (true) {
         showEventsSubMenu();
-        int eventChoice = getValidatedChoice(1, 9);
+        int eventChoice = getValidatedChoice(1, 5);
 
-        if (eventChoice == 9) break;
+        if (eventChoice == 5) break;
 
         switch (eventChoice) {
             case 1:
@@ -132,22 +109,6 @@ void handleEventsSubMenu(int userID) {
                 break;
             case 4:
                 listJoinedEvents(userID);
-                break;
-            case 5:
-                searchEventByName();
-                break;
-            case 6:
-                searchEventByDate();
-                break;
-            case 7: {
-                int eventID;
-                cout << "Enter Event ID to set reminder: ";
-                cin >> eventID;
-                setEventReminder(userID, eventID);
-                break;
-            }
-            case 8:
-                viewEventReminders(userID);
                 break;
             default:
                 cout << "Invalid choice.\n";
@@ -190,96 +151,6 @@ void handleProfileSubMenu(int userID) {
     }
 }
 
-void showNotificationsSubMenu() {
-    cout << "\n======================" << endl;
-    cout << " Notifications Menu" << endl;
-    cout << "======================" << endl;
-    cout << "1. View Upcoming Events" << endl;
-    cout << "2. View Event Changes" << endl;
-    cout << "3. Back" << endl;
-    cout << "======================" << endl;
-    cout << "Enter your choice: ";
-}
-
-void handleNotificationsSubMenu(int userID) {
-    while (true) {
-        showNotificationsSubMenu();
-        int notificationChoice = getValidatedChoice(1, 3);
-
-        if (notificationChoice == 3) break;
-
-        switch (notificationChoice) {
-            case 1: {
-                string message;
-                cout << "Enter notification message: ";
-                cin.ignore();
-                getline(cin, message);
-                addNotification(userID, message);
-                break;
-            }
-            case 2:
-                viewNotifications(userID);
-                break;
-            default:
-                cout << "Invalid choice.\n";
-        }
-    }
-}
-
-void showCommentsFeedbackSubMenu() {
-    cout << "\n======================" << endl;
-    cout << " Comments & Feedback Menu" << endl;
-    cout << "======================" << endl;
-    cout << "1. Leave Comment on Event" << endl;
-    cout << "2. View Comments on Event" << endl;
-    cout << "3. Leave Event Feedback" << endl;
-    cout << "4. View Event Feedback" << endl;
-    cout << "5. Back" << endl;
-    cout << "======================" << endl;
-    cout << "Enter your choice: ";
-}
-
-void handleCommentsFeedbackSubMenu(int userID) {
-    while (true) {
-        showCommentsFeedbackSubMenu();
-        int commentFeedbackChoice = getValidatedChoice(1, 5);
-
-        if (commentFeedbackChoice == 5) break;
-
-        switch (commentFeedbackChoice) {
-            case 1: {
-                int eventID;
-                cout << "Enter Event ID to comment: ";
-                cin >> eventID;
-                addComment(userID, eventID);
-                break;
-            }
-            case 2: {
-                int eventID;
-                cout << "Enter Event ID to view comments: ";
-                cin >> eventID;
-                viewComments(eventID);
-                break;
-            }
-            case 3: {
-                int eventID;
-                cout << "Enter Event ID to leave feedback: ";
-                cin >> eventID;
-                provideFeedback(userID, eventID);
-                break;
-            }
-            case 4: {
-                int eventID;
-                cout << "Enter Event ID to view feedback: ";
-                cin >> eventID;
-                viewFeedback(eventID);
-                break;
-            }
-            default:
-                cout << "Invalid choice.\n";
-        }
-    }
-}
 
 void showAdminMenu() {
     cout << "\n======================" << endl;
@@ -313,8 +184,8 @@ void handleAdminMenu() {
 }
 
 void showEventManagementSubMenu() {
-    sleep(1);
-    cout << "\033[2J\033[H";
+    // sleep(1);
+    // cout << "\033[2J\033[H";
     cout << "\n======================" << endl;
     cout << " Event Management Menu" << endl;
     cout << "======================" << endl;
@@ -473,8 +344,13 @@ void handleMainMenu() {
                 int accountChoice;
                 cout << "1. Create User Account" << endl;
                 cout << "2. Create Admin Account" << endl;
+                cout << "3. Back" << endl;
+
                 cout << "Choose an option: ";
-                accountChoice = getValidatedChoice(1, 2);
+                accountChoice = getValidatedChoice(1, 3);
+
+                if (accountChoice == 3) break;
+
 
                 switch (accountChoice) {
                     case 1:
@@ -498,3 +374,6 @@ void handleMainMenu() {
         }
     }
 }
+
+
+

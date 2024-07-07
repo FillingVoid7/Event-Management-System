@@ -60,6 +60,7 @@ void browseEventsByCategory() {
 
 
 void joinEvent(int userID) {
+    browseEvents();
     int eventID;
     cout << "Enter Event ID to join: ";
     cin >> eventID;
@@ -75,6 +76,7 @@ void joinEvent(int userID) {
 }
 
 void joinEventByCategory(int userID) {
+    browseEvents();
     string category;
     cout << "Enter Event Category to join: ";
     cin.ignore();
@@ -97,6 +99,7 @@ void joinEventByCategory(int userID) {
 }
 
 void cancelEventRegistration(int userID) {
+    browseEvents();
     int eventID;
     cout << "Enter Event ID to cancel registration: ";
     cin >> eventID;
