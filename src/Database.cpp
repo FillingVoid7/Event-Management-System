@@ -19,6 +19,17 @@ void initializeDatabase() {
     sqlite3* db = openDatabase();
     if (!db) return;
 
+    const char* dropTablesSQL = R"(
+        DROP TABLE IF EXISTS admin_data;
+        DROP TABLE IF EXISTS user_data;
+        DROP TABLE IF EXISTS events;
+        DROP TABLE IF EXISTS event_registrations;
+        DROP TABLE IF EXISTS comments;
+        DROP TABLE IF EXISTS feedback;
+        DROP TABLE IF EXISTS reminders;
+        DROP TABLE IF EXISTS admin_reports;
+    )";
+
     const char* adminTableSQL = R"(
         CREATE TABLE IF NOT EXISTS admin_data (
             adminID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -40,7 +51,7 @@ void initializeDatabase() {
             eventID INTEGER PRIMARY KEY AUTOINCREMENT,
             eventName TEXT NOT NULL,
             eventLocation TEXT UNIQUE NOT NULL,
-            eventDuration TEXT NOT NULL,  -- Changed from eventSchedule
+            eventDuration TEXT NOT NULL,  
             eventDate TEXT NOT NULL,
             eventDescription TEXT NOT NULL,
             eventCategory TEXT NOT NULL,
@@ -105,51 +116,59 @@ void initializeDatabase() {
     )";
 
     char* errMsg = nullptr;
-    int rc = sqlite3_exec(db, adminTableSQL, nullptr, nullptr, &errMsg);
+
+    int rc = sqlite3_exec(db, dropTablesSQL, nullptr, nullptr, &errMsg);
     if (rc != SQLITE_OK) {
-        cerr << "SQL error: " << errMsg << endl;
+        cerr << "SQL error dropping tables: " << errMsg << endl;
+        sqlite3_free(errMsg);
+    }
+
+    
+    rc = sqlite3_exec(db, adminTableSQL, nullptr, nullptr, &errMsg);
+    if (rc != SQLITE_OK) {
+        cerr << "SQL error creating admin_data table: " << errMsg << endl;
         sqlite3_free(errMsg);
     }
 
     rc = sqlite3_exec(db, userTableSQL, nullptr, nullptr, &errMsg);
     if (rc != SQLITE_OK) {
-        cerr << "SQL error: " << errMsg << endl;
+        cerr << "SQL error creating user_data table: " << errMsg << endl;
         sqlite3_free(errMsg);
     }
 
     rc = sqlite3_exec(db, eventsTableSQL, nullptr, nullptr, &errMsg);
     if (rc != SQLITE_OK) {
-        cerr << "SQL error: " << errMsg << endl;
+        cerr << "SQL error creating events table: " << errMsg << endl;
         sqlite3_free(errMsg);
     }
 
     rc = sqlite3_exec(db, eventRegistrationsTableSQL, nullptr, nullptr, &errMsg);
     if (rc != SQLITE_OK) {
-        cerr << "SQL error: " << errMsg << endl;
+        cerr << "SQL error creating event_registrations table: " << errMsg << endl;
         sqlite3_free(errMsg);
     }
 
     rc = sqlite3_exec(db, commentsTableSQL, nullptr, nullptr, &errMsg);
     if (rc != SQLITE_OK) {
-        cerr << "SQL error: " << errMsg << endl;
+        cerr << "SQL error creating comments table: " << errMsg << endl;
         sqlite3_free(errMsg);
     }
 
     rc = sqlite3_exec(db, feedbackTableSQL, nullptr, nullptr, &errMsg);
     if (rc != SQLITE_OK) {
-        cerr << "SQL error: " << errMsg << endl;
+        cerr << "SQL error creating feedback table: " << errMsg << endl;
         sqlite3_free(errMsg);
     }
 
     rc = sqlite3_exec(db, remindersTableSQL, nullptr, nullptr, &errMsg);
     if (rc != SQLITE_OK) {
-        cerr << "SQL error: " << errMsg << endl;
+        cerr << "SQL error creating reminders table: " << errMsg << endl;
         sqlite3_free(errMsg);
     }
 
     rc = sqlite3_exec(db, adminReportsTableSQL, nullptr, nullptr, &errMsg);
     if (rc != SQLITE_OK) {
-        cerr << "SQL error: " << errMsg << endl;
+        cerr << "SQL error creating admin_reports table: " << errMsg << endl;
         sqlite3_free(errMsg);
     }
 
