@@ -30,6 +30,7 @@ void browseEvents() {
 }
 
 void browseEventsByCategory() {
+    browseEvents();
     string category;
     cout << "Enter Event Category to browse: ";
     cin.ignore();
@@ -42,7 +43,9 @@ void browseEventsByCategory() {
     sqlite3_stmt* stmt;
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, nullptr);
 
+    bool eventFound = false;
     while (sqlite3_step(stmt) == SQLITE_ROW) {
+        eventFound = true;
         cout << "Event ID: " << sqlite3_column_int(stmt, 0) << "\n";
         cout << "Event Name: " << sqlite3_column_text(stmt, 1) << "\n";
         cout << "Event Duration: " << sqlite3_column_text(stmt, 2) << "\n"; // Changed to eventDuration
@@ -53,9 +56,14 @@ void browseEventsByCategory() {
         cout << "--------------------------\n";
     }
 
+    if (!eventFound) {
+        cout << "No events found for the category: " << category << "\n";
+    }
+
     sqlite3_finalize(stmt);
     sqlite3_close(db);
 }
+
 
 
 
@@ -75,6 +83,8 @@ void joinEvent(int userID) {
     sqlite3_close(db);
 }
 
+
+
 void joinEventByCategory(int userID) {
     browseEvents();
     string category;
@@ -82,21 +92,46 @@ void joinEventByCategory(int userID) {
     cin.ignore();
     getline(cin, category);
 
-    browseEventsByCategory();
+    sqlite3* db = openDatabase();
+
+    string query = "SELECT * FROM events WHERE eventCategory = '" + category + "'";
+    sqlite3_stmt* stmt;
+    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, nullptr);
+
+    bool eventFound = false;
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        eventFound = true;
+        cout << "Event ID: " << sqlite3_column_int(stmt, 0) << "\n";
+        cout << "Event Name: " << sqlite3_column_text(stmt, 1) << "\n";
+        cout << "Event Duration: " << sqlite3_column_text(stmt, 2) << "\n"; // Changed to eventDuration
+        cout << "Event Date: " << sqlite3_column_text(stmt, 3) << "\n";
+        cout << "Event Description: " << sqlite3_column_text(stmt, 4) << "\n";
+        cout << "Event Category: " << sqlite3_column_text(stmt, 5) << "\n";
+        cout << "Event Location: " << sqlite3_column_text(stmt, 6) << "\n"; // Added eventLocation
+        cout << "--------------------------\n";
+    }
+
+    if (!eventFound) {
+        cout << "No events found for the category: " << category << "\n";
+        sqlite3_finalize(stmt);
+        sqlite3_close(db);
+        return;
+    }
 
     int eventID;
     cout << "Enter Event ID to join: ";
     cin >> eventID;
 
-    sqlite3* db = openDatabase();
-
-
-    string query = "INSERT INTO event_registrations (userID, eventID) VALUES (" + to_string(userID) + ", " + to_string(eventID) + ")";
-    sqlite3_exec(db, query.c_str(), nullptr, nullptr, nullptr);
+    string insertQuery = "INSERT INTO event_registrations (userID, eventID) VALUES (" + to_string(userID) + ", " + to_string(eventID) + ")";
+    sqlite3_exec(db, insertQuery.c_str(), nullptr, nullptr, nullptr);
 
     cout << "Successfully joined the event.\n";
+    sqlite3_finalize(stmt);
     sqlite3_close(db);
 }
+
+
+
 
 void cancelEventRegistration(int userID) {
     browseEvents();
@@ -113,6 +148,8 @@ void cancelEventRegistration(int userID) {
     cout << "Successfully canceled the registration.\n";
     sqlite3_close(db);
 }
+
+
 
 void listJoinedEvents(int userID) {
     sqlite3* db = openDatabase();

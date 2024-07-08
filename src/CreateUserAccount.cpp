@@ -28,14 +28,13 @@ void createUserAccount() {
 
     rc = sqlite3_step(stmt);
     if (rc != SQLITE_DONE) {
-        // cerr << "SQL error: " << sqlite3_errmsg(db) << endl;
-        cout <<"Username already exists !" <<endl;  
+        cout <<"User account already exists !" <<endl;  
     } else {
         cout << "User account created successfully." << endl;
     }
 
     sqlite3_finalize(stmt);
-     sqlite3_close(db);
+    sqlite3_close(db);
 }
 
 void createAdminAccount() {
@@ -61,8 +60,7 @@ void createAdminAccount() {
 
     rc = sqlite3_step(stmt);
     if (rc != SQLITE_DONE) {
-        // cerr << "SQL error: " << sqlite3_errmsg(db) << endl;
-        cout <<"Username already exists !" <<endl;  
+        cout <<"Admin account already exists !" <<endl;  
 
     } else {
         cout << "Admin account created successfully." << endl;

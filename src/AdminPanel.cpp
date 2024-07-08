@@ -133,7 +133,6 @@ void viewEventRegistrations() {
     cout << "Enter Event ID to view registrations: ";
     cin >> eventID;
 
-    // Input validation
     while (cin.fail() || eventID <= 0) {
         cout << "Invalid input. Please enter a valid Event ID: ";
         cin.clear();
@@ -143,7 +142,6 @@ void viewEventRegistrations() {
 
     sqlite3* db = openDatabase();
 
-    // Check if eventID exists
     string countQuery = "SELECT COUNT(*) FROM events WHERE eventID = " + to_string(eventID);
     int count = 0;
     sqlite3_stmt* countStmt;
@@ -160,7 +158,7 @@ void viewEventRegistrations() {
         return;
     }
 
-    // Fetch registrations
+
     string query = "SELECT userID FROM event_registrations WHERE eventID = " + to_string(eventID);
     sqlite3_stmt* stmt;
     if (sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, nullptr) == SQLITE_OK) {

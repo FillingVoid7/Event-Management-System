@@ -83,7 +83,9 @@ void showEventsSubMenu() {
     cout << "2. Join Event" << endl;
     cout << "3. Cancel Registration" << endl;
     cout << "4. View Joined Events" << endl;
-    cout << "5. Back" << endl;
+    cout << "5. Browse events by Category" <<endl ; 
+    cout << "6. Join events by Category " <<endl ;  
+    cout << "7. Back" << endl;
     cout << "======================" << endl;
     cout << "Enter your choice: ";
 }
@@ -93,9 +95,9 @@ void handleEventsSubMenu(int userID) {
             cout << "\033[2J\033[H";
     while (true) {
         showEventsSubMenu();
-        int eventChoice = getValidatedChoice(1, 5);
+        int eventChoice = getValidatedChoice(1, 7);
 
-        if (eventChoice == 5) break;
+        if (eventChoice == 7) break;
 
         switch (eventChoice) {
             case 1:
@@ -110,6 +112,11 @@ void handleEventsSubMenu(int userID) {
             case 4:
                 listJoinedEvents(userID);
                 break;
+            case 5:
+                browseEventsByCategory() ;
+                break;
+            case 6:
+                joinEventByCategory(userID);    
             default:
                 cout << "Invalid choice.\n";
         }
@@ -317,8 +324,7 @@ void handleMainMenu() {
                         cout << "UserId: " << userID << endl;
                         handleUserMenu(userID);
                     } else {
-                         // ANSI escape code for red color
-                        cout << "\033[31mUser Login failed.\033[0m\n";
+                        cout << "\033[31mUser Login failed.\033[0m\n";                             // ANSI escape code for red color
                         sleep(2);
                         cout << "\033[2J\033[H";
                     }
@@ -326,8 +332,7 @@ void handleMainMenu() {
                     if (loginAdmin() != -1) {
                         handleAdminMenu();
                     } else {
-                         // ANSI escape code for red color
-                        cout << "\033[31mAdmin Login failed.\033[0m\n";
+                        cout << "\033[31mAdmin Login failed.\033[0m\n";                         // ANSI escape code for red color
                         sleep(2);
                         cout << "\033[2J\033[H";
                     }
