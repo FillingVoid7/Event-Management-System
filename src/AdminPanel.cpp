@@ -19,11 +19,11 @@ void ListEvents() {
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         cout << "Event ID: " << sqlite3_column_int(stmt, 0) << "\n";
         cout << "Event Name: " << sqlite3_column_text(stmt, 1) << "\n";
-        cout << "Event Duration: " << sqlite3_column_text(stmt, 2) << "\n"; // Changed to eventDuration
-        cout << "Event Date: " << sqlite3_column_text(stmt, 3) << "\n";
-        cout << "Event Description: " << sqlite3_column_text(stmt, 4) << "\n";
-        cout << "Event Category: " << sqlite3_column_text(stmt, 5) << "\n";
-        cout << "Event Location: " << sqlite3_column_text(stmt, 6) << "\n"; // Added eventLocation
+        cout << "Event location: " << sqlite3_column_text(stmt, 2) << "\n"; // Changed to eventDuration
+        cout << "Event Duration: " << sqlite3_column_text(stmt, 3) << "\n";
+        cout << "Event Date: " << sqlite3_column_text(stmt, 4) << "\n";
+        cout << "Event Description: " << sqlite3_column_text(stmt, 5) << "\n";
+        cout << "Event Category: " << sqlite3_column_text(stmt, 6) << "\n"; // Added eventLocation
         cout << "--------------------------\n";
     }
 
@@ -41,10 +41,10 @@ void createEvent() {
     cout << "Enter Event Name: ";
     cin.ignore();
     getline(cin, eventName);
-    cout << "Enter Event Duration: ";
-    getline(cin, eventDuration);
     cout << "Enter Event Location: ";
     getline(cin, eventLocation);
+    cout << "Enter Event Duration: ";
+    getline(cin, eventDuration);
     cout << "Enter Event Date (YYYY-MM-DD): ";
     getline(cin, eventDate);
     cout << "Enter Event Description: ";
@@ -83,10 +83,10 @@ void editEvent() {
     cout << "Enter new Event Name: ";
     cin.ignore();
     getline(cin, eventName);
-    cout << "Enter new Event Duration: ";
-    getline(cin, eventDuration);
     cout << "Enter new Event Location: ";
     getline(cin, eventLocation);
+    cout << "Enter new Event Duration: ";
+    getline(cin, eventDuration);
     cout << "Enter new Event Date (YYYY-MM-DD): ";
     getline(cin, eventDate);
     cout << "Enter new Event Description: ";
@@ -95,6 +95,8 @@ void editEvent() {
     getline(cin, eventCategory);
     cout << "Enter new Creator Admin ID: ";
     cin >> createdBy;
+
+
 
     string query = "UPDATE events SET eventName = '" + eventName + "', eventDuration = '" + eventDuration + "', eventLocation = '" + eventLocation + "', eventDate = '" + eventDate + "', eventDescription = '" + eventDescription + "', eventCategory = '" + eventCategory + "', createdBy = " + to_string(createdBy) + " WHERE eventID = " + to_string(eventID);
 

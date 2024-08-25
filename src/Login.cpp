@@ -1,22 +1,32 @@
 #include "Login.h"
 #include "Database.h"
+#include "HashInputPassword.h"
+#include "PasswordField.h"
 #include <iostream>
-#include <string>
+#include <sodium.h>
+#include <sqlite3.h>
 
 using namespace std;
 
+bool verifyPassword(const string& password, const string& hash) {
+    return crypto_pwhash_str_verify(hash.c_str(), password.c_str(), password.length()) == 0;
+}
+
 int loginUser() {
-    string username, password;
+    string username;
     cout << "Enter Username: ";
     cin >> username;
-    cout << "Enter Password: ";
-    cin >> password;
+
+    PasswordField pf(20); 
+    string password = pf.getline(); 
 
     sqlite3* db = openDatabase();
-    if (!db) return -1;
+    if (!db) {
+        cerr << "Failed to open database." << endl;
+        return -1;
+    }
 
-    const char* errMsg = nullptr;
-    string query = "SELECT userID FROM user_data WHERE userName = ? AND userPassword = ?";
+    string query = "SELECT userID, userPassword FROM user_data WHERE userName = ?";
     sqlite3_stmt* stmt;
     int rc = sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, nullptr);
 
@@ -27,16 +37,19 @@ int loginUser() {
     }
 
     sqlite3_bind_text(stmt, 1, username.c_str(), -1, SQLITE_STATIC);
-    sqlite3_bind_text(stmt, 2, password.c_str(), -1, SQLITE_STATIC);
 
     rc = sqlite3_step(stmt);
     int userID = -1;
     if (rc == SQLITE_ROW) {
-        userID = sqlite3_column_int(stmt, 0);
-        cout << "\033[32mLogin successful\n \033[0m\n";         // ANSI escape code for green color
-       
+        string storedHash(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)));
+        if (verifyPassword(password, storedHash)) {
+            userID = sqlite3_column_int(stmt, 0);
+            cout << "\033[32mLogin successful\033[0m" << endl;
+        } else {
+            cout << "Invalid username or password." << endl;
+        }
     } else {
-        cout << "Invalid username or password.\n";
+        cout << "Invalid username or password." << endl;
     }
 
     sqlite3_finalize(stmt);
@@ -46,35 +59,44 @@ int loginUser() {
 }
 
 int loginAdmin() {
-    string adminName, adminPassword;
+    string adminName;
     cout << "Enter Admin Username: ";
     cin >> adminName;
-    cout << "Enter Admin Password: ";
-    cin >> adminPassword;
+
+    PasswordField pf(20);
+    string adminPassword = pf.getline(); 
 
     sqlite3* db = openDatabase();
+    if (!db) {
+        cerr << "Failed to open database." << endl;
+        return -1;
+    }
 
-    string sql = "SELECT adminID FROM admin_data WHERE adminName = ? AND adminPassword = ?";
+    string sql = "SELECT adminID, adminPassword FROM admin_data WHERE adminName = ?";
     sqlite3_stmt* stmt;
     int rc = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr);
     if (rc != SQLITE_OK) {
         cerr << "SQL error: " << sqlite3_errmsg(db) << endl;
         sqlite3_close(db);
-        return false;
+        return -1;
     }
 
     sqlite3_bind_text(stmt, 1, adminName.c_str(), -1, SQLITE_STATIC);
-    sqlite3_bind_text(stmt, 2, adminPassword.c_str(), -1, SQLITE_STATIC);
 
     rc = sqlite3_step(stmt);
     int userID = -1;
     if (rc == SQLITE_ROW) {
-        userID = sqlite3_column_int(stmt, 0);              // ANSI escape code for green color
-        cout << "\033[32mLogin successful. \033[0m\n";     //cout << "Login successful. User ID: " << userID << endl;
+        string storedHash(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)));
+        if (verifyPassword(adminPassword, storedHash)) {
+            userID = sqlite3_column_int(stmt, 0);
+            cout << "\033[32mLogin successful.\033[0m" << endl;
+        } else {
+            cout << "\033[31mInvalid username or password\033[0m" << endl;
+        }
     } else {
-         cout << "\033[31mInvalid username or password\033[0m\n";           // ANSI escape code for red color
-        return -1;
+        cout << "\033[31mInvalid username or password\033[0m" << endl;
     }
+
     sqlite3_finalize(stmt);
     sqlite3_close(db);
 

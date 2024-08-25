@@ -61,13 +61,20 @@ void initializeDatabase() {
     )";
 
     const char* adminReportsTableSQL = R"(
-        CREATE TABLE IF NOT EXISTS admin_reports (
+            CREATE TABLE IF NOT EXISTS admin_reports (
             reportID INTEGER PRIMARY KEY AUTOINCREMENT,
-            reportType TEXT NOT NULL,
-            reportDate TEXT NOT NULL,
+            eventID INTEGER NOT NULL,
+            eventName TEXT NOT NULL,
+            eventDuration TEXT NOT NULL,
+            eventDate TEXT NOT NULL,
+            eventDescription TEXT NOT NULL,
+            eventCategory TEXT NOT NULL,
+            eventLocation TEXT NOT NULL,
             generatedBy INTEGER NOT NULL,
+            reportDate TEXT NOT NULL,
             FOREIGN KEY(generatedBy) REFERENCES admin_data(adminID)
-        );
+);
+
     )";
 
     char* errMsg = nullptr;

@@ -5,17 +5,19 @@ CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Iincludes
 
 # List of all .cpp files in the src directory
-SRCS = main.cpp \
+SRCS = src/main.cpp \
        src/Login.cpp \
        src/CreateUserAccount.cpp \
        src/AdminPanel.cpp \
        src/JoinEvents.cpp \
        src/UserProfile.cpp \
        src/AdminReports.cpp \
-       src/Database.cpp
+       src/Database.cpp \
+       src/PasswordField.cpp \
+       src/HashInputPassword.cpp
 
 # List of all .o files in the build directory
-OBJS = $(SRCS:%.cpp=build/%.o)
+OBJS = $(SRCS:src/%.cpp=build/%.o)
 
 # Name of the executable
 TARGET = bin/event_management_system
@@ -25,10 +27,10 @@ all: $(TARGET)
 
 # Rule to link the executable
 $(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS) -lsqlite3
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS) -lsqlite3 -lsodium
 
 # Rule to compile .cpp files to .o files in the build directory
-build/%.o: %.cpp
+build/%.o: src/%.cpp
 	@mkdir -p $(@D)  # Create directories if they do not exist
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
@@ -38,3 +40,4 @@ clean:
 
 # Phony targets
 .PHONY: all clean
+

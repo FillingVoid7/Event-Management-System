@@ -1,5 +1,7 @@
 #include "UserProfile.h"
 #include "Database.h"
+#include "HashInputPassword.h"
+#include "PasswordField.h"
 #include <iostream>
 #include <sqlite3.h>
 #include <string>
@@ -40,9 +42,16 @@ void updateUserProfile(int userID) {
 }
 
 void changeUserPassword(int userID) {
-    string newPassword;
-    cout << "Enter new Password: ";
-    cin >> newPassword;
+    PasswordField pf(20); 
+    string newPassword = pf.getline(); 
+
+    string hashedPassword;
+    try {
+        hashedPassword = hashInputPassword(newPassword);
+    } catch (const runtime_error& e) {
+        cerr << "Error hashing password: " << e.what() << endl;
+        return;
+    }
 
     sqlite3* db = openDatabase();
     if (!db) return; 
@@ -57,7 +66,7 @@ void changeUserPassword(int userID) {
         return;
     }
 
-    sqlite3_bind_text(stmt, 1, newPassword.c_str(), -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 1, hashedPassword.c_str(), -1, SQLITE_STATIC);
     sqlite3_bind_int(stmt, 2, userID);
 
     rc = sqlite3_step(stmt);
